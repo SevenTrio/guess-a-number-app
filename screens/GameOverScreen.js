@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, Image, StyleSheet } from "react-native";
 import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
 import colors from "../constants/colors";
@@ -8,6 +8,13 @@ const GameOverScreen = ({ roundsNumber, userNumber, onRestart }) => {
     return (
         <View style={styles.screen}>
             <TitleText>The Game is Over!</TitleText>
+            <View style={styles.imageContainer}>
+                <Image
+                    source={{uri: 'https://www.petmd.com/sites/default/files/Senior-Cat-Care-2070625.jpg'}}
+                    style={styles.image}
+                    resizeMode="cover"
+                />
+            </View>
             <View style={styles.resultContainer}>
                 <BodyText style={styles.resultText}>
                     Your phone needs <Text style={styles.highlight}>{roundsNumber}</Text>
@@ -24,6 +31,19 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    imageContainer: {
+        overflow: 'hidden',
+        width: 300,
+        height: 300,
+        marginVertical: 30,
+        borderRadius: 150,
+        borderWidth: 3,
+        borderColor: 'black'
+    },
+    image: {
+        width: '100%',
+        height: '100%'
     },
     resultContainer: {
         marginVertical: 15,
