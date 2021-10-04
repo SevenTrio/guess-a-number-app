@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, Button, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
+import MainButton from "../components/MainButton";
 import colors from "../constants/colors";
 
 const GameOverScreen = ({ roundsNumber, userNumber, onRestart }) => {
@@ -10,7 +11,7 @@ const GameOverScreen = ({ roundsNumber, userNumber, onRestart }) => {
             <TitleText>The Game is Over!</TitleText>
             <View style={styles.imageContainer}>
                 <Image
-                    source={{uri: 'https://www.petmd.com/sites/default/files/Senior-Cat-Care-2070625.jpg'}}
+                    source={{ uri: 'https://www.petmd.com/sites/default/files/Senior-Cat-Care-2070625.jpg' }}
                     style={styles.image}
                     resizeMode="cover"
                 />
@@ -21,7 +22,7 @@ const GameOverScreen = ({ roundsNumber, userNumber, onRestart }) => {
                     {' '}rounds to guess the number <Text style={styles.highlight}>{userNumber}</Text>.
                 </BodyText>
             </View>
-            <Button title="NEW GAME" onPress={onRestart}/>
+            <MainButton onPress={onRestart}>NEW GAME</MainButton>
         </View>
     );
 };
