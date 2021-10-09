@@ -1,7 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, StyleSheet, Alert } from "react-native";
+import {
+    View,
+    Text,
+    StyleSheet,
+    Alert,
+    FlatList
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Card from "../components/Card";
+import BodyText from "../components/BodyText";
 import MainButton from "../components/MainButton";
 import NumberContainer from "../components/NumberContainer";
 import defaultStyles from "../constants/default-styles";
@@ -18,17 +25,23 @@ const generateRandomBetween = (min, max, exclude) => {
     return rndNumber;
 }
 
+const renderListItem = (listLength, itemData) => (
+    <View style={styles.listItem}>
+        <BodyText>#{listLength - itemData.index}</BodyText>
+        <BodyText>{itemData.item}</BodyText>
+    </View>
+);
+
 const GameScreen = ({ userChoice, onGameOver }) => {
-    const [currentGuess, setCurrentGuess] = useState(
-        generateRandomBetween(1, 100, userChoice)
-    );
-    const [rounds, setRounds] = useState(0);
+    const initialGuess = generateRandomBetween(1, 100, userChoice);
+    const [currentGuess, setCurrentGuess] = useState(initialGuess);
+    const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
     const currentLow = useRef(1);
     const currentHigh = useRef(100);
 
     useEffect(() => {
         if (currentGuess === userChoice) {
-            onGameOver(rounds);
+            onGameOver(pastGuesses.length);
         }
     }, [currentGuess, userChoice, onGameOver]);
 
@@ -47,12 +60,12 @@ const GameScreen = ({ userChoice, onGameOver }) => {
         if (direction === 'lower') {
             currentHigh.current = currentGuess;
         } else {
-            currentLow.current = currentGuess;
+            currentLow.current = currentGuess + 1;
         }
 
         const nextNumber = generateRandomBetween(currentLow.current, currentHigh.current, currentGuess);
         setCurrentGuess(nextNumber);
-        setRounds((rounds) => rounds + 1);
+        setPastGuesses((curPastGuesses) => [nextNumber.toString(), ...curPastGuesses]);
     }
 
     return (
@@ -67,6 +80,14 @@ const GameScreen = ({ userChoice, onGameOver }) => {
                     <Ionicons name="md-add" size={24} color="white" />
                 </MainButton>
             </Card>
+            <View style={styles.listContainer}>
+                <FlatList
+                    contentContainerStyle={styles.list}
+                    data={pastGuesses}
+                    keyExtractor={(item) => item}
+                    renderItem={renderListItem.bind(this, pastGuesses.length)}
+                />
+            </View>
         </View>
     );
 };
@@ -83,6 +104,24 @@ const styles = StyleSheet.create({
         width: 400,
         maxWidth: '90%',
         marginTop: 20
+    },
+    listContainer: {
+        flex: 1,
+        width: '60%'
+    },
+    list: {
+        flexGrow: 1,
+        justifyContent: 'flex-end'
+    },
+    listItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+        padding: 15,
+        marginVertical: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        backgroundColor: 'white'
     }
 });
 
