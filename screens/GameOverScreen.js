@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, Text, Image, StyleSheet, Dimensions } from "react-native";
+import {
+    View,
+    ScrollView,
+    Text,
+    Image,
+    StyleSheet,
+    Dimensions
+} from "react-native";
 import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
 import MainButton from "../components/MainButton";
@@ -26,16 +33,16 @@ const GameOverScreen = ({ roundsNumber, userNumber, onRestart }) => {
         <ScrollView>
             <View style={styles.screen}>
                 <TitleText>The Game is Over!</TitleText>
-                <View style={styles.imageContainer}>
+                <View style={{
+                          ...styles.imageContainer,
+                          width: deviceWidth * 0.7,
+                          height: deviceWidth * 0.7,
+                          borderRadius: (deviceWidth * 0.7) / 2,
+                          marginVertical: deviceHeight / 30
+                }}>
                     <Image
                         source={{ uri: 'https://www.petmd.com/sites/default/files/Senior-Cat-Care-2070625.jpg' }}
-                        style={{
-                            ...styles.image,
-                            width: deviceWidth * 0.7,
-                            height: deviceWidth * 0.7,
-                            borderRadius: (deviceWidth * 0.7) / 2,
-                            marginVertical: deviceHeight / 30
-                        }}
+                        style={styles.image}
                         resizeMode="cover"
                     />
                 </View>
